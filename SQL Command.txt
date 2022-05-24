@@ -1,0 +1,58 @@
+
+// Ecrire la requête qui permet d'afficher, le prénom, nom des personnages ainsi que leur royaume, uniquement pour ceux étant reliés à un royaume
+
+SELECT p.firstname, p.lastname, kg.name AS kingdom_name
+FROM person AS p
+INNER JOIN kingdom AS kg ON kg.id=p.kingdom_id;
+
+
+// Ecrire la requête qui permet d'afficher la même chose en incluant tous les personnages
+
+SELECT p.firstname, p.lastname, kg.name AS kingdom_name
+FROM person AS p
+LEFT JOIN kingdom AS kg ON kg.id=p.kingdom_id;
+
+
+// Ecrire la requête qui permet d'afficher la moyenne de l'âge des personnages
+
+SELECT AVG(age) as age FROM Person;
+
+
+// La moyenne est un peu haute non ? Ecrire la requête qui permet d'afficher la moyenne de tous les personnages n’ayant pas le rôle de magicien
+
+SELECT AVG(age) as age FROM Person
+WHERE role_id < 3;
+
+
+// Ecrire la requête qui permet d'afficher le nombre de personnage par royaume (inclure les royaumes n’ayant pas de personnage)
+
+SELECT k.name, COUNT(*) AS nb_pers
+FROM kingdom AS k
+RIGHT JOIN person AS p ON p.kingdom_id = k.id
+GROUP BY k.name;
+
+
+// Ecrire la requête qui permet d'afficher la moyenne de l’âge par rôle
+
+SELECT AVG(age) AS age, r.role AS role_name
+FROM person AS p
+INNER JOIN kingdom AS kg ON kg.id = p.kingdom_id
+INNER JOIN role AS r ON kg.id=r.id
+GROUP BY r.role;
+
+
+// Ecrire la requête qui permet d'afficher la liste de tous les personnages avec leur rôle et royaume éventuels
+
+SELECT p.firstname, p.lastname, kg.name AS kingdom_name, r.role AS role_name
+FROM person AS p
+LEFT JOIN kingdom AS kg ON kg.id = p.kingdom_id
+LEFT JOIN role AS r ON kg.id=r.id;
+
+
+// Ecrire la requête qui permet d'afficher La liste des royaumes ayant au moins 2 sujets
+
+SELECT k.name, COUNT(*) AS nb_pers
+FROM kingdom AS k
+INNER JOIN person AS p ON p.kingdom_id = k.id
+GROUP BY k.name
+HAVING nb_pers >= 2;
